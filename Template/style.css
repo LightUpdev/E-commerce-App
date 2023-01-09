@@ -114,6 +114,7 @@ a:hover{
     cursor: pointer;
 }
 .sidebar{
+    transition: all .5s ease;
     position: fixed;
     transform: translateX(-30rem);
     width: 30rem;
