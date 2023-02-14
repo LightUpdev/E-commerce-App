@@ -1,12 +1,13 @@
-const express = require('express');
-import data from '../frontend/src/data'
-const PORT = process.env.PORT || 5000
+const express = require("express");
+const data = require("./data");
+const PORT = process.env.PORT || 5000;
 
 const app = express();
-app.get('/api/products' , (req,res)=>{
-    res.status(200).send(data.products);
-})
+app.use(express.json())
+app.get("/api/products", (req, res) => {
+  res.status(200).send(data);
+});
 
-app.listen(5000, ()=>{
-    console.log(`Listening on ${PORT}`);
-})
+app.listen(PORT, () => {
+  console.log(`Listening on ${PORT}`);
+});
