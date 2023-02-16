@@ -1,9 +1,9 @@
-import data from "../data";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-const ProductScreen = (props) => {
-  const product = data.find((product) => {
-    return product.id === Number(props.match.params.id);
+const ProductScreen = ({ products }) => {
+  const location = useLocation();
+  const product = products.find((product) => {
+    return product.id === Number(location.pathname.split("/")[2]);
   });
   const { name, price, image, brand, category, reviews, rating, status } =
     product;

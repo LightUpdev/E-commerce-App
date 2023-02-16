@@ -1,26 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
-const HomeScreen = () => {
-  const [products, setProducts] = useState([]);
-  console.log(products);
-  // PRODUCTS FETCHING FROM BACKEND SERVER
-  const fetchProducts = () => {
-    axios
-      .get("api/products")
-      .then((res) => {
-        setProducts(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
+const HomeScreen = ({ products }) => {
   return (
     <ul className="products">
       {products.map((product) => {
