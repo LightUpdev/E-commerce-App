@@ -6,6 +6,8 @@ import ProductScreen from "./Screens/ProductScreen";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "./actionTypes/ProductsActionTypes";
+import CartScreen from "./Screens/CartScreen";
+import 'bootstrap/dist/css/bootstrap.css';
 
 function App() {
   const products = useSelector((state) => state.products);
@@ -69,6 +71,9 @@ function App() {
               </Route>
               <Route path="/" exact={true}>
                 <HomeScreen products={products.product} />
+              </Route>
+              <Route path="/cart/:id?" exact={true}>
+                <CartScreen products={products.product} />
               </Route>
             </div>
           </main>

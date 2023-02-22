@@ -1,12 +1,38 @@
-import { Link, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import * as cartActionType from "../actionTypes/cartActionType";
 
 const ProductScreen = ({ products }) => {
+  const [qty, setQty] = useState(1);
   const location = useLocation();
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   const product = products.find((product) => {
     return product.id === Number(location.pathname.split("/")[2]);
   });
-  const { name, price, image, brand, category, reviews, rating, status } =
-    product;
+
+  const {
+    id,
+    name,
+    price,
+    image,
+    brand,
+    category,
+    reviews,
+    rating,
+    status,
+    countInStock,
+  } = product;
+
+  const handleAddToCart = () => {
+    history.push(`/cart/${id}?qty=${qty}`);
+    dispatch({
+      type: cartActionType.ADD_TO_CART,
+      payload: { ...product, qty },
+    });
+  };
   return (
     <div>
       <div className="back-home-btn">
@@ -14,7 +40,7 @@ const ProductScreen = ({ products }) => {
       </div>
       <div className="details">
         <div className="product-image">
-          <img src={`../${image}`} alt={name} className="img-fluid" />
+          <img src={`/${image}`} alt={name} className="img-fluid" />
         </div>
         <div className="about-product">
           <h2>{name}</h2>
@@ -29,34 +55,46 @@ const ProductScreen = ({ products }) => {
               <b>Rating:</b> {rating} Stars ({reviews} Reviews)
             </li>
             <li>
-              <b>Price: {price}</b>
+              <b>Price: ${price}</b>
             </li>
             <li>
-              <b>Description:</b>{" "}
+              <b>Description:</b>
             </li>
           </ul>
         </div>
         <div className="product-action">
           <ul>
             <li>
-              <b>Price:</b> {price}
+              <b>Price:</b> ${price}
             </li>
             <li>
-              <b>Status:</b>
+              <b>Status:{countInStock ? " In Stock" : "Unavailable"}</b>
               {status}
             </li>
             <li>
-              <b>Quantity:</b>{" "}
-              <select name="product-qty" id="product-qty">
-                <option value="quantity">quantity</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-              </select>
+              <b>Quantity:</b>
+              {countInStock ? (
+                <select
+                  name="product-qty"
+                  id="product-qty"
+                  value={qty}
+                  onChange={(e) => {
+                    setQty(Number(e.target.value));
+                  }}>
+                  {[...Array(countInStock).keys()].map((x) => (
+                    <option value={x + 1} key={x + 1}>
+                      {x + 1}
+                    </option>
+                  ))}
+                </select>
+              ) : null}
             </li>
             <li>
-              <button className="action-btn">Add to Cart</button>
+              {countInStock ? (
+                <button onClick={handleAddToCart} className="action-btn">
+                  Add to Cart
+                </button>
+              ) : null}
             </li>
           </ul>
         </div>
