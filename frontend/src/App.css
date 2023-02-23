@@ -218,6 +218,7 @@ a:hover{
     background: whitesmoke;
     padding: 3rem 1.5rem;
     border-radius: 10px;
+    width:fit-content;
 }
 .cart-action div h2 span{
     display: inline-flex;
@@ -226,5 +227,13 @@ a:hover{
     width: auto;
 }
 table , tr , td ,th{
-    border: none !important;
+    border-bottom: 1px solid #000;
+}
+table , tr , td{
+    font-weight: 300;
+    margin-top: auto;
+}
+
+.product-info{
+    margin-top: auto;
 }

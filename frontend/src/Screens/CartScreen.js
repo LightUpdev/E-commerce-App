@@ -1,16 +1,19 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { REMOVE_FROM_CART } from "../actionTypes/cartActionType";
 
 function CartScreen(products) {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.carts);
-  const location = useLocation();
-  const itemQty = location.search.split('=')[1]
-  var object = cartItems.reduce((obj, item) => ({...obj, [item.key]: item.value}) ,{});
-  console.log(object);
-  console.log(itemQty);
-  console.log(location);
-  console.log(cartItems);
+  const removeFromCart = (id) => {
+    dispatch({
+      type: REMOVE_FROM_CART,
+      payload: cartItems.filter((a) => a.id !== id),
+    });
+  };
+
   return (
     <div className="p-5">
       <div className="cart-container">
@@ -20,72 +23,124 @@ function CartScreen(products) {
               <div className="heading">
                 <h2 className="fw-bold py-3">Shopping Cart</h2>
               </div>
-              <table className="table">
-                <thead>
-                  <tr className="justify-content-between">
-                    <th className=""></th>
-                    <th className="float-end ">Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {cartItems.map((item) => {
-                    const { id,image, name, qty, countInStock, price} = item;
-                    return (
-                      
-                        <tr key={id}>
-                          <td className="">
-                            <div className="d-flex">
-                              <img
-                                src={`/${image}`}
-                                alt="product-img"
-                                width="100"
-                                className="img-fluid"
-                              />
-                              <div>
-                                <h3>{name}</h3>
-                                <p>
-                                  Qty:
-                                  <select
-                                    name="qty"
-                                    id="qty"
-                                    value={qty}
-                                    onChange={(e) => e.target.value}>
-                                    {[...Array(countInStock).keys()].map(
-                                      (x) => (
-                                        <option key={x} value={x + 1}>{x + 1}</option>
-                                      )
-                                    )}
-                                  </select>
-                                </p>
+              {cartItems.length > 0 ? (
+                <table className="table">
+                  <thead>
+                    <tr className="justify-content-between">
+                      <th className=""></th>
+                      <th className=" ">Price</th>
+                      <th className=" ">Total Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {cartItems.length > 0 ? (
+                      cartItems.map((item) => {
+                        const { id, image, name, qty, countInStock, price } =
+                          item;
+                        return (
+                          <tr key={id}>
+                            <td className="">
+                              <div className="d-flex">
+                                <img
+                                  src={`/${image}`}
+                                  alt="product-img"
+                                  width="100"
+                                  className="img-fluid"
+                                />
+                                <div className="product-info">
+                                  <h3>{name}</h3>
+                                  <p>
+                                    Qty:
+                                    <select
+                                      name="qty"
+                                      id="qty"
+                                      value={qty}
+                                      onChange={(e) => e.target.value}>
+                                      {[...Array(countInStock).keys()].map(
+                                        (x) => (
+                                          <option key={x} value={x + 1}>
+                                            {x + 1}
+                                          </option>
+                                        )
+                                      )}
+                                    </select>
+                                  </p>
+                                </div>
+
+                                <div className="my-auto mx-3">
+                                  <button
+                                    className="btn btn-danger"
+                                    onClick={() => removeFromCart(id)}>
+                                    Delete
+                                  </button>
+                                </div>
                               </div>
-                            </div>
-                          </td> 
-                          <td className="float-end my-5">
-                            <b>${price}</b>
-                          </td>
-                        </tr>
-                      
-                    );
-                  })}
-                </tbody>
-              </table>
+                            </td>
+                            <td>
+                              <b className="my-5">${price}</b>
+                            </td>
+                            <td>
+                              <b className="my-5">${price * qty}</b>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    ) : (
+                      <>
+                        <div className="text-center justify-content-center">
+                          <h3>Go to shopping page</h3>
+                          <button
+                            className="btn btn-lg btn-warning"
+                            type="button"
+                            onClick={() => history.push("/")}>
+                            Shopping
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </tbody>
+                </table>
+              ) : (
+                <>
+                  <div className="text-center justify-content-center">
+                    <h3>Go to shopping page</h3>
+                    <button
+                      className="btn btn-lg btn-warning"
+                      type="button"
+                      onClick={() => history.push("/")}>
+                      Shopping
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
           <div className="col-sm-12 col-md-4">
-            <div className="cart-action">
+            <div className="cart-action p-5 d-flex mx-auto">
               <div className="heading d-grid">
                 <h2 className="fw-bold float-end px-5">
-                  Subtotal
-                  <span>(05 items): {cartItems.map((itemQty)=> {
-                    const {qty} = itemQty
-                     const values = Object.values(qty)
-                     const sum = values.reduce((accumulator, value) => {
-                      return accumulator + value;
-                    }, 0);
-                    return sum
-                  })}</span>
+                  Total Quantity:
+                  <span className="mx-2">
+                    {cartItems.reduce((a, c) => {
+                      return a + c.qty;
+                    }, 0)}
+                  </span>
                 </h2>
-                <button className="btn btn-warning fs-5 fw-bold w-50 py-3 my-3 ms-5">
+                <h2 className="fw-bold float-end px-5">
+                  No of Items in Cart:
+                  <span className="mx-2">{cartItems.length}</span>
+                </h2>
+                <h2 className="fw-bold float-end px-5">
+                  Subtotal:
+                  <span className="mx-3">
+                    {cartItems.reduce((a, c) => {
+                      return a + c.qty * c.price;
+                    }, 0)}
+                  </span>
+                </h2>
+                <button
+                  className="btn btn-warning fs-5 fw-bold py-3 my-3"
+                  disabled={cartItems.length === 0}>
                   Proceed to Checkout
                 </button>
               </div>

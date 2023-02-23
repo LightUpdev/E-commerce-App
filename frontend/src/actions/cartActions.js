@@ -6,3 +6,9 @@ export const AddToCart = (items) => {
     payload: items,
   };
 };
+export const RemoveFromCart = (productId) => {
+  return {
+    type: cartActions.REMOVE_FROM_CART,
+    payload: productId,
+  };
+};
