@@ -1,12 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { REMOVE_FROM_CART } from "../actionTypes/cartActionType";
+import Cookies from "js-cookie";
 
-function CartScreen(products) {
+function CartScreen() {
   const history = useHistory();
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.carts);
+
+  const reduceQty = (itemId) => {};
+
   const removeFromCart = (id) => {
     dispatch({
       type: REMOVE_FROM_CART,
@@ -35,8 +39,7 @@ function CartScreen(products) {
                   <tbody>
                     {cartItems.length > 0 ? (
                       cartItems.map((item) => {
-                        const { id, image, name, qty, countInStock, price } =
-                          item;
+                        let { id, image, name, qty, price } = item;
                         return (
                           <tr key={id}>
                             <td className="">
@@ -47,15 +50,31 @@ function CartScreen(products) {
                                   width="100"
                                   className="img-fluid"
                                 />
+
                                 <div className="product-info">
                                   <h3>{name}</h3>
-                                  <p>
+                                  <h3 className="d-flex">
                                     Qty:
-                                    <select
+                                    <div className="ms-3">
+                                      <button
+                                        className="btn btn-warning mx-3"
+                                        onClick={() => {
+                                          reduceQty(id);
+                                        }}>
+                                        -
+                                      </button>
+                                      <span>{qty}</span>
+                                      <button className="btn btn-warning mx-3">
+                                        +
+                                      </button>
+                                    </div>
+                                    {/* <select
                                       name="qty"
                                       id="qty"
                                       value={qty}
-                                      onChange={(e) => e.target.value}>
+                                      onChange={(e) =>
+                                        dispatch(AddToCart(...cartItems,{qty:e.target.value}))
+                                      }>
                                       {[...Array(countInStock).keys()].map(
                                         (x) => (
                                           <option key={x} value={x + 1}>
@@ -63,8 +82,8 @@ function CartScreen(products) {
                                           </option>
                                         )
                                       )}
-                                    </select>
-                                  </p>
+                                    </select> */}
+                                  </h3>
                                 </div>
 
                                 <div className="my-auto mx-3">
@@ -77,10 +96,10 @@ function CartScreen(products) {
                               </div>
                             </td>
                             <td>
-                              <b className="my-5">${price}</b>
+                              <b className="d-flex my-5 ">${price}</b>
                             </td>
                             <td>
-                              <b className="my-5">${price * qty}</b>
+                              <b className="d-flex my-5">${price * qty}</b>
                             </td>
                           </tr>
                         );

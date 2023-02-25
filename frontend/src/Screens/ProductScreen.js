@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import * as cartActionType from "../actionTypes/cartActionType";
+import Cookies from "js-cookie";
 
 const ProductScreen = ({ products }) => {
   const [qty, setQty] = useState(1);
@@ -25,14 +26,17 @@ const ProductScreen = ({ products }) => {
     status,
     countInStock,
   } = product;
+  const carts = useSelector((state) => state.carts);
 
   const handleAddToCart = () => {
-    history.push(`/cart/${id}?qty=${qty}`);
     dispatch({
       type: cartActionType.ADD_TO_CART,
       payload: { ...product, qty },
     });
+    Cookies.set("cartItems", JSON.stringify(carts));
+    history.push(`/cart/${id}?qty=${qty}`);
   };
+  console.log(carts);
   return (
     <div>
       <div className="back-home-btn">
@@ -91,7 +95,9 @@ const ProductScreen = ({ products }) => {
             </li>
             <li>
               {countInStock ? (
-                <button onClick={handleAddToCart} className="action-btn">
+                <button
+                  onClick={() => handleAddToCart(id)}
+                  className="action-btn">
                   Add to Cart
                 </button>
               ) : null}
