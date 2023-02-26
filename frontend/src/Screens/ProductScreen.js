@@ -33,7 +33,7 @@ const ProductScreen = ({ products }) => {
       type: cartActionType.ADD_TO_CART,
       payload: { ...product, qty },
     });
-    Cookies.set("cartItems", JSON.stringify(carts));
+    Cookies.set("cartItems", carts);
     history.push(`/cart/${id}?qty=${qty}`);
   };
   console.log(carts);

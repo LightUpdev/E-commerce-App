@@ -7,7 +7,8 @@ import Cookies from "js-cookie";
 function CartScreen() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.carts);
+  const cartItems = Cookies.get(JSON.parse("cartItems"));
+  console.log(cartItems);
 
   const reduceQty = (itemId) => {};
 
