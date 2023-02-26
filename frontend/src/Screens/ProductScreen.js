@@ -28,13 +28,17 @@ const ProductScreen = ({ products }) => {
   } = product;
   const carts = useSelector((state) => state.carts);
 
-  const handleAddToCart = () => {
-    dispatch({
-      type: cartActionType.ADD_TO_CART,
-      payload: { ...product, qty },
-    });
-    Cookies.set("cartItems", carts);
-    history.push(`/cart/${id}?qty=${qty}`);
+  const handleAddToCart = (productId) => {
+    if (productId) {
+      dispatch({
+        type: cartActionType.ADD_TO_CART,
+        payload: { ...product, qty },
+      });
+
+      history.push(`/cart/${id}?qty=${qty}`);
+    } else {
+      return;
+    }
   };
   console.log(carts);
   return (
