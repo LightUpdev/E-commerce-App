@@ -1,17 +1,18 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { BrowserRouter, Route, Link } from "react-router-dom";
+import { BrowserRouter, Route, Link, useLocation } from "react-router-dom";
 import HomeScreen from "./Screens/HomeScreen";
 import ProductScreen from "./Screens/ProductScreen";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "./actionTypes/ProductsActionTypes";
 import CartScreen from "./Screens/CartScreen";
-import 'bootstrap/dist/css/bootstrap.css';
+import "bootstrap/dist/css/bootstrap.css";
 
 function App() {
   const products = useSelector((state) => state.products);
   const dispatch = useDispatch();
+  
 
   useEffect(() => {
     const fetchProducts = async () => {

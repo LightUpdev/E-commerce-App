@@ -141,11 +141,11 @@ function CartScreen() {
               <div className="heading d-grid">
                 <h2 className="fw-bold float-end px-5">
                   Total Quantity:
-                  {/* <span className="mx-2">
+                  <span className="mx-2">
                     {cartItems.reduce((a, c) => {
                       return a + c.qty;
                     }, 0)}
-                  </span> */}
+                  </span>
                 </h2>
                 <h2 className="fw-bold float-end px-5">
                   No of Items in Cart:
@@ -154,9 +154,9 @@ function CartScreen() {
                 <h2 className="fw-bold float-end px-5">
                   Subtotal:
                   <span className="mx-3">
-                    {/* {cartItems.reduce((a, c) => {
+                    {cartItems.reduce((a, c) => {
                       return a + c.qty * c.price;
-                    }, 0)} */}
+                    }, 0)}
                   </span>
                 </h2>
                 <button
