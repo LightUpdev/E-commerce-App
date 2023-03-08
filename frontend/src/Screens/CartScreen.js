@@ -70,21 +70,7 @@ function CartScreen() {
                                         +
                                       </button>
                                     </div>
-                                    {/* <select
-                                      name="qty"
-                                      id="qty"
-                                      value={qty}
-                                      onChange={(e) =>
-                                        dispatch(AddToCart(...cartItems,{qty:e.target.value}))
-                                      }>
-                                      {[...Array(countInStock).keys()].map(
-                                        (x) => (
-                                          <option key={x} value={x + 1}>
-                                            {x + 1}
-                                          </option>
-                                        )
-                                      )}
-                                    </select> */}
+                                  
                                   </h3>
                                 </div>
 
