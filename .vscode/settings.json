@@ -3,5 +3,6 @@
     "editor.guides.bracketPairs": true,
     "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
     "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
-    "prettier.bracketSameLine": true
+    "prettier.bracketSameLine": true,
+    "terminal.integrated.defaultProfile.windows": "Git Bash"
 }
