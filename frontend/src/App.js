@@ -17,7 +17,7 @@ function App() {
     const fetchProducts = async () => {
       try {
         dispatch({ type: actionTypes.productListRequest });
-        const { data } = await axios.get("api/products");
+        const { data } = await axios.get("https://lightupdevcommerce-backend.onrender.com/api/products");
         dispatch({ type: actionTypes.productListSuccess, payload: data });
       } catch (error) {
         dispatch({ type: actionTypes.productListFail, payload: error });
