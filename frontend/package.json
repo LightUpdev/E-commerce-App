@@ -49,5 +49,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "proxy": "http://localhost:5000/"
+  "proxy": "https://lightupdevcommerce-backend.onrender.com/api/products"
 }

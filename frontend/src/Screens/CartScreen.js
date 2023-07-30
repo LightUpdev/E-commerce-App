@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { REMOVE_FROM_CART } from "../actionTypes/cartActionType";
-import Cookies from "js-cookie";
 
 function CartScreen() {
   const cartItems = useSelector((state) => state.carts);
@@ -70,7 +69,6 @@ function CartScreen() {
                                         +
                                       </button>
                                     </div>
-                                  
                                   </h3>
                                 </div>
 

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import * as cartActionType from "../actionTypes/cartActionType";
-import Cookies from "js-cookie";
 
 const ProductScreen = ({ products }) => {
   const [qty, setQty] = useState(1);
